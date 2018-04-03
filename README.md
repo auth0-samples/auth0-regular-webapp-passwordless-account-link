@@ -23,6 +23,9 @@ namespaced scoping representing multiple APIs. This sample consists of:
 - 2 Namespaced scopes: `read:contacts` and `read:calendar`;
 - The Code Authorization Grant flow to obtain an `access_token` that works for both APIs
 
+## Illustration of Progressive Profiling for Mobile Number
+
+![](overview.gif)
 
 ## Setup
 
@@ -76,8 +79,7 @@ Copy the rule `rules/check-sms-account-linked.js` into a new Rule in the Dashboa
 
 Name the Rule appropriate eg. `Check SMS Account Linked`
 
-You may wish to adjust the 2nd line to match your own username password connection name
-eg. `Username-Password-Authentication`
+You will have to adjust the 2nd line to match your own client ID
 
 ### Locally
 

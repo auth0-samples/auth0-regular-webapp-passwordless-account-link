@@ -1,5 +1,5 @@
 function checkSmsAccountLinked (user, context, callback) {
-  if (context.connection !== 'Username-Password-Authentication') {
+  if (context.clientID !== '{{YOUR CLIENT ID}}') {
     return callback(null, user, context);
   }
   var getStatus = function (profile) {

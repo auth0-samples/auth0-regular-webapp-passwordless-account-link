@@ -36,6 +36,9 @@ router.get('/', ensureLoggedIn('/auth'), function (req, res, next) {
           // replace profile and user with primary
           req.session.profile = req.session.primaryProfile;
           req.user = req.session.primaryUser;
+          // ok, clean rest of session up, now reassigned
+          // req.session.primaryProfile = null;
+          // req.session.primaryUser = null;
           // setup flag to ignore custom claim links for this session
           // since tokens still contain stale flag information
           req.session.ignoreLink = true;
