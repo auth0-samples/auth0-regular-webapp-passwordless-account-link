@@ -1,0 +1,118 @@
+extends layout
+
+block content
+  br
+  .w3-container
+    .w3-card-4.w3-center(style="padding: 15px;")
+      if showSms
+        You need to register mobile!
+        div(id="root" style="width: 280px; margin: 40px auto; padding: 10px;")
+
+        #embedded-mobile-verify-customui.container(style="display:none;")
+          .form-signin
+            h2.form-signin-heading Enter Code
+            label.sr-only(for='code') Code
+            input#mobile-code.form-control(type='code', placeholder='code', required='', autofocus='')
+            button#signin-passwordless-mobile-verify.btn.btn-lg.btn-primary.btn-block Sign in
+
+        #embedded-login-customui.container
+          .form-signin
+            h2.form-signin-heading Passwordless SMS
+            label.sr-only(for='mobile') Mobile Number
+            input#mobile.form-control(type='mobile', placeholder='mobile', required='', autofocus='')
+            button#signin-passwordless-mobile.btn.btn-lg.btn-primary.btn-block Sign in
+
+      else
+        img(src=user.picture)
+        p Welcome #{user.nickname}
+          div
+            button(id="check-session") Check Session
+            button(id="get-profile") Get Profile
+            button(id="get-contacts") List Contacts
+            button(id="get-appointments") List Appointments
+            div(id="results")
+              pre
+  script.
+
+     $(function () {
+
+      $('#signin-passwordless-mobile-verify').on('click', function (e) {
+        e.preventDefault();
+        var webAuthPasswordless = new auth0.WebAuth({
+          domain: '#{env.AUTH0_DOMAIN}',
+          redirectUri: '#{env.AUTH0_CALLBACK_URL}',
+          clientID: '#{env.AUTH0_CLIENT_ID}',
+          responseType: 'code'
+        });
+        webAuthPasswordless.passwordlessLogin({
+          connection: 'sms',
+          phoneNumber: $('#mobile').val(),
+          verificationCode: $('#mobile-code').val()
+        }, function (err, res) {
+          if (err) {
+            alert("Something went wrong with passwordless email");
+            return;
+          }
+        });
+      });
+
+      $('#signin-passwordless-mobile').on('click', function (e) {
+        e.preventDefault();
+        var webAuthPasswordless = new auth0.WebAuth({
+          domain: '#{env.AUTH0_DOMAIN}',
+          redirectUri: '#{env.AUTH0_CALLBACK_URL}',
+          clientID: '#{env.AUTH0_CLIENT_ID}',
+          responseType: 'code'
+        });
+        webAuthPasswordless.passwordlessStart({
+          connection: 'sms',
+          phone_number: $('#mobile').val(),
+          send: 'code'
+        }, function (err, res) {
+          if (err) {
+            alert("Something went wrong with passwordless email");
+            return;
+          }
+          $('#embedded-login-customui').hide();
+          $('#embedded-mobile-verify-customui').show();
+        });
+      });
+    });
+
+    $('#check-session').on('click', function(e) {
+      e.preventDefault();
+      window.location = "http://app1.demonstration.site:3000/api/session";
+    });
+
+    $('#get-profile').on('click', function(e) {
+      e.preventDefault();
+      $.ajax({
+        url: "http://app1.demonstration.site:3000/api/userinfo",
+        method: "GET",
+        success: function (data) {
+          $('#results pre').text(JSON.stringify(data, null, 2))
+        }
+      });
+    });
+
+    $('#get-appointments').on('click', function(e) {
+      e.preventDefault();
+      $.ajax({
+        url: "http://app1.demonstration.site:3000/api/appointments",
+        method: "GET",
+        success: function (data) {
+          $('#results pre').text(JSON.stringify(data, null, 2))
+        }
+      });
+    });
+
+    $('#get-contacts').on('click', function(e) {
+      e.preventDefault();
+      $.ajax({
+        url: "http://app1.demonstration.site:3000/api/contacts",
+        method: "GET",
+        success: function (data) {
+          $('#results pre').text(JSON.stringify(data, null, 2))
+        }
+      });
+    });
