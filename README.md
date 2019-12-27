@@ -1,7 +1,7 @@
-# Auth0 Regular Webapp Passwordless Account Link 
+# Auth0 Regular Webapp Passwordless Account Link
 
 This node.js regular web app sample illustrates progressive profiling by detecting the need
-to capture mobile information post authentication and auto-account linking 
+to capture mobile information post authentication and auto-account linking
 a Passwordless SMS connection type.
 
 Also offers examples on how to do:
@@ -40,7 +40,7 @@ The API needs two namespaced scopes:
 * `read:contacts`
 * `read:calendar`
 
-Also need to 
+Also need to
 
 - Switch `Skip User Consent off` for the Organize Resource Server in Auth0 Dashboard
 - Switch on `Allow Online Access` for the Organise Resource Server in Auth0 Dashboard
@@ -50,7 +50,7 @@ Create a regular web application Client.
 
 Under settings ensure you have:
 
-Client-Type: Regular Web Application 
+Client-Type: Regular Web Application
 
 Allowed Callback URLs:
  - http://app1.com:3000/callback
@@ -65,6 +65,9 @@ Under tenant settings -> advanced -> Allowed Logout URLs
  - http://app1.com:3000
 
 Under Advanced Settings -> Oauth, switch ON the OIDC Conformant toggle.
+
+Under APIs -> Auth0 Management API -> Machine to Machine Applications,
+authorize the client with at least the `update:users` scope enabled
 
 #### Connection Setup
 
@@ -117,7 +120,7 @@ cp .env.example .env
 
 In order to be able to log-in with user and password you need to make sure you
 take into account the details explained in the [Cross Origin Authentication
-documentation](https://auth0.com/docs/cross-origin-authentication). 
+documentation](https://auth0.com/docs/cross-origin-authentication).
 
 
 ## Run the Application
